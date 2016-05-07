@@ -1,6 +1,6 @@
 # instagramAPIClass
 ## Class for searching Facebook, Twitter, and Instagram
-**Updated: 5/7/16**
+**Updated: 05/07/16**
 Now Supports Facebook and Twitter. 
 Class now pulls twitter information. After taking that information
 it takes the user name and full name of the user you originally looked up
