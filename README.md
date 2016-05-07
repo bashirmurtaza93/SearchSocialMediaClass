@@ -8,10 +8,11 @@ This class uses the twitter API class that user, J7mbo has created.
 https://github.com/J7mbo/twitter-api-php
 
 ###About:
-Class now pulls twitter information. After taking that information
+The class starts by pulling the users twitter information. After taking that information
 it takes the user name and full name of the user you originally looked up
 and goes through facebook to find the person. Afterwards using the facebook and twitter
 information, we now look for the instagram infromation.
+
 ###**An example of how the class can be used shows as follows:**
 ```
 $newSearch = new search;
