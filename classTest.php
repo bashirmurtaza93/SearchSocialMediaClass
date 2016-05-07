@@ -2,7 +2,7 @@
 
 class instagram {
     
-    public $instagramtoken = "34105221.1677ed0.3a36cc28d0f94e8daa3a1890e55bafa5";
+    public $instagramtoken = " Token Goes here";
     
    public function setProperty($instagram){
         $this->instagramtoken = $instagram;
