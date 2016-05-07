@@ -1,5 +1,5 @@
 # instagramAPIClass
-Class for Instagram API
+## Class for searching Facebook, Twitter, and Instagram
 **Updated: 5/7/16**
 Now Supports Facebook and Twitter. 
 Class now pulls twitter information. After taking that information
