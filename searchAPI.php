@@ -11,7 +11,7 @@ class search {
         'consumer_secret'           =>  token
      );
      
-   public function setInstagram($instagram){
+      public function setInstagram($instagram){
         $this->instagramtoken = $instagram;
     }
     public function getInstagram(){
@@ -93,27 +93,27 @@ class search {
 
 
     if($twitterScreenName != NULL){
-    $instagramFullName = $this->instagramSearch($twitter_full_name);
+    $instagramFullName = $this->instagramSearch($twitterScreenName);
     }
     if($twitter_full_name != NULL){
-    $instagramScreenName = $this->instagramSearch($twitterScreenName);
+    $instagramScreenName = $this->instagramSearch($twitter_full_name);
     }
     $instagramGivenName = $this->instagramSearch($user);
     
     $instagramResult = max(current($instagramGivenName), current($instagramScreenName), current($instagramFullName));
     //echo "This is instagram result :".$instagramResult;
+  //  var_dump($instagramGivenName);
+   // var_dump($instagramScreenName);
+   // var_dump($instagramFullName);
        $right = false;
        $somethingArray = array($instagramGivenName, $instagramScreenName, $instagramFullName);
        foreach($somethingArray as $it){
        // var_dump($it);
-        //echo "<br/>";
-   
         if($it['checkCorrect'] == "correct"){
-            
+            //var_dump($somethingArray);
             $right = true;
+            
             $something = $it['correct'];
-            //echo $something;
-            //var_dump($it[$something][$something]);
             $instagramResult = $it[$something][$something];
             $userInformation['instagram']['url'] = 'http://instagram.com/'.$something;
             $userInformation['instagram']['followers'] = $instagramResult;
@@ -127,6 +127,7 @@ class search {
        }
        
        if($right == false){
+       
        if(current($instagramGivenName) == $instagramResult){
        $userInformation['instagram']['url'] = 'http://instagram.com/'.key($instagramGivenName);
        $userInformation['instagram']['followers'] = $instagramResult;
@@ -223,12 +224,13 @@ class search {
     function instagramSearch($user){
     $instagramtoken = $this->getInstagram();
     $instagramArray = array();
-    $checkUser = preg_replace('/\s+/', '', $user);
+    //$user = preg_replace('/\s+/', '', $user);
     $user = preg_replace('/\s+/', '+', $user);
-    $json_url = 'https://api.instagram.com/v1/users/search?q='.$user.'&access_token='.$instagramtoken;
+   // echo $user;
+    $json_url = 'https://api.instagram.com/v1/users/search?q='.$user.'&access_token='.$instagramtoken.'&count=3';
 
     $json_decode = $this->curl($json_url);
-    
+   // var_dump($json_decode);
 
     foreach($json_decode['data'] as $info ){
         if($info['username'] == $user || $info['username'] == $checkUser){
@@ -342,6 +344,21 @@ class search {
     return $json;   
        
    } // end function 
+   function youtube($user){
+   $user = explode('https://www.youtube.com/user/', $user);
+   $username = $user[1];
+   $key ='AIzaSyAAANUEzxJ9RkLAZOoVxxgP5hrxmrzUOnc';
+   $url = 'https://www.googleapis.com/youtube/v3/channels?key='.$key.'&forUsername='.$username.'&part=id';
+   $json = $this->curl($url);
+   $id = $json['items'][0]['id'];
+   $url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id='.$id.'&key='.$key;
+   $json = $this->curl($url);
+   $subscriberCount = $json['items'][0]['statistics']['subscriberCount'];
+   return $subscriberCount;
+   
+       
+       
+   } 
 } // end class
 
 
@@ -358,10 +375,26 @@ make sure to end 2nd parameter with single quotes. And to put a slash in beginni
 If extra parameter is needed, make sure to put make it as &count=10
 If the user is self just set the ID/ first parameter to self.
 $newUser = new search;
+$newUser->getUserInformation("chrispaul");
+$newUser->getUserInformation("chris paul");
+$newUser->getUserInformation("cp3");
+
+
+$newUser = new search;
 $info = $newUser->getUserInformation("chrispaul");
+//var_dump($info);
+//echo $info['instagram']['url'];
+$newUser = new search;
+$info = $newUser->getUserInformation("deadmau5");
+var_dump($info);
+$newUser = new search;
+$info = $newUser->getUserInformation("kingjames");
+var_dump($info);
+$info = $newUser->getUserInformation("lebron james");
+var_dump($info);
+$info = $newUser->getUserInformation("lebronjames");
 var_dump($info);
 */
-
 
 
 
